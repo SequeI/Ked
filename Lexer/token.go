@@ -4,19 +4,24 @@ type TokenType int
 
 const (
 	// End of file
-	EOF TokenType = iota
+	EndOfFile TokenType = iota
 
 	// Identifier & Literal
 	Identifier
 	Number
+	Float
 
 	//Operators
 	Add
 	Minus
 	Assign
+	Mul
+	Div
 
 	//Delimiters
 	EndOfLine
+	Lparen
+	Rparen
 
 	//Keywords
 	Function
