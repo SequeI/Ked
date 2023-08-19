@@ -4,31 +4,52 @@ type TokenType int
 
 const (
 	// End of file
-	EndOfFile TokenType = iota
+	EOF TokenType = iota
 
-	// Identifier & Literal
-	Identifier
-	Number
-	Float
+	// Keywords
+	LET
+	IF
+	ELIF
+	ELSE
+	WHILE
 
-	//Operators
-	Add
-	Minus
-	Assign
-	Mul
-	Div
+	// Identifier
+	IDENTIFIER
 
-	//Delimiters
-	EndOfLine
-	Lparen
-	Rparen
+	//Literals
+	INT
 
-	//Keywords
-	Function
-	Let
+	// Operators
+	PLUS
+	MINUS
+	MULTIPLY
+	DIVIDE
+	MODULO
+	ASSIGN
+
+	// Delimiters and Symbols
+	LPAREN
+	RPAREN
 )
 
 type Token struct {
 	Type  TokenType
 	Value string
+}
+
+// Hash Map
+var keywordTokens = map[string]TokenType{
+	"remember":    LET,
+	"eh":          IF,
+	"orEh":        ELIF,
+	"orEvenJust":  ELSE,
+	"eraGoOnSure": WHILE,
+	"plus":        PLUS,
+	"awayFrom":    MINUS,
+	"times":       MULTIPLY,
+	"into":        DIVIDE,
+	"%":           MODULO,
+	"=":           ASSIGN,
+	"(":           LPAREN,
+	")":           RPAREN,
 }

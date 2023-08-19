@@ -27,15 +27,26 @@ func (l *Lexer) nextChar() {
 	if l.pos < l.length {
 		l.char = l.input[l.pos]
 	} else {
-		l.char = byte(EndOfFile)
+		l.char = byte(EOF)
 	}
+}
+
+func isWhitespace(char byte) bool {
+	// FUTURE COLUMN + ROW TRACKER FOR ERROR ACCURACY
+	return char == ' ' || char == '\t' || char == '\n' || char == '\r'
 }
 
 // tokenizer function
 func Tokenizer(input string) string {
 	lexer := NewLexer(input)
-	for lexer.char != byte(EndOfFile) {
+
+	for lexer.char != byte(EOF) {
 		lexer.nextChar()
+		//lint:ignore SA4017 Ignore this warning because the isWhitespace function is used for code organization.
+		if isWhitespace(lexer.char) {
+			// FUTURE COLUMN + ROW TRACKER FOR ERROR ACCURACY
+			continue
+		}
 	}
 
 	return " "
