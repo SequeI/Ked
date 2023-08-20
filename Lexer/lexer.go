@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"fmt"
 	"unicode"
 )
 
@@ -75,4 +76,11 @@ func Tokenizer(input string) []Token {
 	tokens = append(tokens, token)
 
 	return tokens
+}
+
+// For use when testing in lexer_test.go
+func PrintTokens(tokens []Token) {
+	for _, token := range tokens {
+		fmt.Printf("Type: %v, Value: %v\n", token.Type, token.Value)
+	}
 }
