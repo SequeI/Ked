@@ -23,6 +23,16 @@ func isWhitespace(char rune) bool {
 	return unicode.IsSpace(char)
 }
 
+func isAlphabetChar(s string) bool {
+	for _, char := range s {
+		if unicode.IsLetter(char) {
+			return true
+		}
+	}
+	return false
+}
+
+
 // tokenizer function
 func Tokenizer(input string) string {
 
@@ -46,11 +56,18 @@ func Tokenizer(input string) string {
 			tempV += string(nextChar)
 			lexer.pos++
 		}
-		if tokenValue, ok := keywordTokens[tempV]; ok {
-			token := Token{Type: tokenType, Value: tokenValue}
+		if _, ok := keywordTokens[tempV]; ok {
+			token := Token{Type: keywordTokens[tempV], Value: tempV}
 			tokens = append(tokens, token)
 		} else {
-			
+			if isAlphabetChar(tempV){
+				token := Token{Type: IDENTIFIER, Value: tempV}
+				tokens = append(tokens, token)
+			} else {
+				// Probably integer if doesn't contain letters lol, will do better checks later
+				token := Token{Type: INT, Value: tempV}
+				tokens = append(tokens, token)
+			}
 		}
 	
 
