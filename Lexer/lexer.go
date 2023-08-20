@@ -32,9 +32,8 @@ func isAlphabetChar(s string) bool {
 	return false
 }
 
-
 // tokenizer function
-func Tokenizer(input string) string {
+func Tokenizer(input string) []Token {
 
 	tokens := []Token{}
 	lexer := NewLexer(input)
@@ -60,7 +59,7 @@ func Tokenizer(input string) string {
 			token := Token{Type: keywordTokens[tempV], Value: tempV}
 			tokens = append(tokens, token)
 		} else {
-			if isAlphabetChar(tempV){
+			if isAlphabetChar(tempV) {
 				token := Token{Type: IDENTIFIER, Value: tempV}
 				tokens = append(tokens, token)
 			} else {
@@ -69,7 +68,11 @@ func Tokenizer(input string) string {
 				tokens = append(tokens, token)
 			}
 		}
-	
+	}
 
-	return " "
+	// Add EOF token at the end
+	token := Token{Type: EOF, Value: "EndOfFile"}
+	tokens = append(tokens, token)
+
+	return tokens
 }
