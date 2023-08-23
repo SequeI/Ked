@@ -30,6 +30,9 @@ const (
 	// Delimiters and Symbols
 	LPAREN
 	RPAREN
+	LBRACKET
+	RBRACKET
+	EOL
 )
 
 type Token struct {
@@ -52,4 +55,8 @@ var keywordTokens = map[string]TokenType{
 	"=":           ASSIGN,
 	"(":           LPAREN,
 	")":           RPAREN,
+	"like":        EOL,
+	"{":           LBRACKET,
+	"}":           RBRACKET,
+	"-":           MINUS,
 }

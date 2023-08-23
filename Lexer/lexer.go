@@ -39,36 +39,35 @@ func isNumeric(s string) bool {
 // It iterates through the characters, identifying keywords, identifiers, and numbers,
 // and creates corresponding tokens for each recognized element.
 func Tokenizer(input string) []Token {
-
 	current := 0
 	tokens := []Token{}
 	// Iterating through individual characters and performing specific operations based on their values.
-	for current < len(input) {
+	for current < len([]rune(input)) {
 
-		char := input[current]
+		char := string([]rune(input)[current])
 		// This section checks if the character corresponds to a valid token type in the hashmap,
 		// such as whether it is a closing parenthesis or another recognized symbol.
-		if _, ok := keywordTokens[string(char)]; ok && (string([]rune(input)[current+1]) == " " || current == len(input)-1) {
-			tokens = append(tokens, Token{Type: keywordTokens[string(char)], Value: string(char)})
+		if _, ok := keywordTokens[char]; ok && (string([]rune(input)[current+1]) == " " || current == len(input)-1) {
+			tokens = append(tokens, Token{Type: keywordTokens[char], Value: char})
 			current += 2
 			continue
 		}
 		// Whitespace checker examines characters to identify whether they are spaces, assisting in seperating and formatting the source code.
-		if char == ' ' {
+		if char == " " {
 			current++
 			continue
 		}
 		// This section handles the processing of characters that are either letters or digits. It accumulates these characters into a value string,
 		// effectively constructing complete identifiers or integer literals. The loop continues until characters remain that are either letters or digits.
 		// If the accumulated value is numeric, an INT token is created; otherwise, an IDENTIFIER token is generated.
-		if isNumber(string(char)) || isLetter(string(char)) {
+		if isNumber(char) || isLetter(char) {
 			value := ""
 
-			for isNumber(string(char)) || isLetter(string(char)) {
-				value += string(char)
+			for isNumber(char) || isLetter(char) {
+				value += char
 				current++
-				if current < len(input) {
-					char = input[current]
+				if current < len([]rune(input)) {
+					char = string([]rune(input)[current])
 				} else {
 					break
 				}
