@@ -76,6 +76,7 @@ func TestLexer(t *testing.T) {
 		{INT, "7"},
 		{MINUS, "awayFrom"},
 		{INT, "4"},
+		{INT, "4"},
 		{MINUS, "-"},
 		{INT, "1"},
 	}
