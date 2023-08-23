@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"strconv"
+	"unicode"
 )
 
 // FUNCTIONS & METHODS
@@ -41,36 +42,33 @@ func isNumeric(s string) bool {
 func Tokenizer(input string) []Token {
 	current := 0
 	tokens := []Token{}
-	// Iterating through individual characters and performing specific operations based on their values.
-	for current < len([]rune(input)) {
 
-		char := string([]rune(input)[current])
-		// This section checks if the character corresponds to a valid token type in the hashmap,
-		// such as whether it is a closing parenthesis or another recognized symbol.
-		if _, ok := keywordTokens[char]; ok && (string([]rune(input)[current+1]) == " " || current == len(input)-1) {
-			tokens = append(tokens, Token{Type: keywordTokens[char], Value: char})
-			current += 2
-			continue
-		}
+	// Iterating through individual characters and performing specific operations based on their values.
+	for current < len([]rune(input))-1 {
+		char := []rune(input)[current]
+
 		// Whitespace checker examines characters to identify whether they are spaces, assisting in seperating and formatting the source code.
-		if char == " " {
+		if unicode.IsSpace(char) {
 			current++
 			continue
 		}
+		// This section checks if the character corresponds to a valid token type in the hashmap,
+		// such as whether it is a closing parenthesis or another recognized symbol.
+		if _, ok := keywordTokens[string(char)]; ok && (unicode.IsSpace([]rune(input)[current+1]) || current == len(input)-1) {
+			tokens = append(tokens, Token{Type: keywordTokens[string(char)], Value: string(char)})
+			current += 2
+			continue
+		}
+
 		// This section handles the processing of characters that are either letters or digits. It accumulates these characters into a value string,
 		// effectively constructing complete identifiers or integer literals. The loop continues until characters remain that are either letters or digits.
 		// If the accumulated value is numeric, an INT token is created; otherwise, an IDENTIFIER token is generated.
-		if isNumber(char) || isLetter(char) {
+		if isNumber(string(char)) || isLetter(string(char)) {
 			value := ""
-
-			for isNumber(char) || isLetter(char) {
-				value += char
+			for isNumber(string(char)) || isLetter(string(char)) {
+				value += string(char)
 				current++
-				if current < len([]rune(input)) {
-					char = string([]rune(input)[current])
-				} else {
-					break
-				}
+				char = []rune(input)[current]
 			}
 
 			if isNumeric(value) {
